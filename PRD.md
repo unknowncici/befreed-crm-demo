@@ -1,0 +1,257 @@
+# Befreed Creator CRM — Product Requirements Document
+
+**Version:** 1.0
+**Status:** Internal Tool
+**Owner:** Befreed Team
+**Last updated:** March 2026
+
+---
+
+## 1. Overview
+
+Befreed is a creator management company. The team manages ~20 creators across onboarding, content production, and platform growth. Today, all coordination happens manually through iMessage group chats, Sideshift (content submission platform), and personal tracking.
+
+This CRM is an **internal tool** to give the Befreed team full visibility into every creator's status, content performance, and communication history — in one place, without switching between iMessage, Sideshift, and memory.
+
+---
+
+## 2. The Problem
+
+### What's breaking today
+
+| Pain point | What actually happens |
+|---|---|
+| Creators slip through onboarding | Team manually sends campaign link via iMessage, then manually tracks if creator joined Sideshift. No notification when they do. |
+| Creators go quiet without anyone noticing | After 2+ days of no video submission, someone manually checks Sideshift and realizes. By then momentum is lost. |
+| Daily check-ins are unreliable | A virtual assistant is supposed to send check-ins every day. They sometimes forget. No system to catch this. |
+| Nathan's content feedback disappears | Rejection notes are sent as iMessage text to the creator. Never logged. Can't identify patterns ("this creator's hooks are always too slow"). |
+| Pipeline stage is manually tracked | Creator's stage (joined → active) is updated by whoever remembers to do it. Often wrong or stale. |
+| No single view of creator health | To understand one creator's status you need to check iMessage + Sideshift + your memory. |
+
+---
+
+## 3. Users
+
+This is an internal tool. There are three roles:
+
+| Role | Who | What they need |
+|---|---|---|
+| **Manager** (you) | Founder / day-to-day ops | Full visibility across all creators. Can send messages, update pipeline, log feedback. |
+| **Nathan** | Content coach | Needs to see pending video submissions, log feedback per creator, approve/reject content. |
+| **Virtual Assistant** | Daily check-in sender | Needs the check-in queue — which creators haven't been messaged in 24h — and one-click send. |
+
+---
+
+## 4. Core Concepts
+
+### Creator
+A creator is a person Befreed manages. They move through a fixed pipeline:
+
+```
+joined → contracted → handles_requested → warming_up → warmed → active
+```
+
+- **joined** — creator received campaign link and signed up
+- **contracted** — contract signed
+- **handles_requested** — platform handle (account) requested on their behalf
+- **warming_up** — first content submitted, testing performance
+- **warmed** — warmup video approved, ready for full cadence
+- **active** — posting 6 videos/week on the platform
+
+**Stage is auto-derived** from events (contract signed date, handle confirmed, first video approved, etc.) — not manually set.
+
+### Creator Types
+- **Boosted** — Befreed provides additional amplification. Higher-touch management.
+- **Regular** — Standard management track.
+
+### Group Chat
+Each creator has one iMessage group chat containing: the creator, Sarah (ops), and Nathan (content). All creator communication happens here. The CRM mirrors this chat and tracks reply gaps.
+
+### Content Submission
+Creators submit videos via Sideshift. Nathan reviews and either approves or sends improvement feedback via iMessage. Target for active creators: **6 videos per week (Monday–Sunday).**
+
+### Feedback Log
+When Nathan gives improvement notes on a video, those notes are logged in the CRM per creator. This surfaces patterns (e.g. "hook too slow" recurring 3 times) that would otherwise disappear into iMessage.
+
+---
+
+## 5. Features
+
+### Screen 1 — Pipeline Board
+A Kanban board showing all creators grouped by pipeline stage.
+
+**Each creator card shows:**
+- Name + type badge (boosted = purple, regular = blue)
+- Alert dot if they have an active alert
+- Posting velocity bar (X/6 this week) for active creators
+
+**Behavior:**
+- Cards are draggable between columns (manual override only — stage is normally auto-derived)
+- Clicking a creator name opens their detail page
+- Column headers show count of creators in that stage
+
+---
+
+### Screen 2 — Creator List
+A sortable, filterable table showing all creators and their performance metrics at a glance.
+
+**Columns:**
+- Creator (name, avatar, phone)
+- Stage
+- Posts this week (pip bar + count vs. 6/week target)
+- Last post (time ago, red if >48h)
+- Total views (sum of approved content)
+- Pending review (videos awaiting Nathan)
+- Feedback notes (count of logged Nathan notes)
+- Last check-in (red if >24h)
+- Active alerts (count)
+
+**Filters:** All / Active / Boosted / Regular / Has Alert
+**Sorting:** Click any column header
+**Click row:** Opens creator detail page
+
+---
+
+### Screen 3 — Gap Alerts
+A feed of active alerts sorted by urgency. Alerts are auto-generated by the system.
+
+**Alert types:**
+
+| Type | Trigger | Severity |
+|---|---|---|
+| `posting_gap` | Active creator hasn't submitted in 48h | Red |
+| `reply_gap` | No team reply in group chat for >4h | Red |
+| `deadline_urgent` | Deadline within 2h | Flashing red |
+| `deadline_missed` | Deadline passed | Flashing red |
+| `deadline_warning` | Deadline within 18h | Amber |
+
+**Behavior:**
+- "Resolve" button removes alert from feed
+- Badge count on sidebar nav updates live
+- Empty state: "All caught up!"
+
+---
+
+### Screen 4 — Creator Detail
+Full profile page for a single creator. Accessed by clicking any creator card or row.
+
+**Sections:**
+1. **Hero** — name, type badge, stage badge, phone, pipeline progress bar
+2. **Timeline** — ordered events: joined, contract signed, handle requested, warmup started, warmed, active. Each shows date completed or "Pending."
+3. **Deadlines** — active deadlines with live countdown timers (updates every second)
+4. **Content Submissions** — table of all submitted videos: title, submitted date, views (from Sideshift), Nathan review status
+5. **This Week's Posting** — visual bar showing X/6 with last submission timestamp and inactivity warning
+6. **Nathan's Feedback Log** — chronological list of improvement notes Nathan has logged. Input to add new notes. Note: in production, auto-pulled from iMessage bridge.
+7. **Onboarding Checklist** — which messages were sent: guide, Nathan link, Sideshift link, Discord (if regular creator)
+
+---
+
+### Screen 5 — Group Chats
+An iMessage-style chat viewer showing all creator group chats.
+
+**Left sidebar:** List of all group chats sorted by urgency (alert chats first), showing last message preview + timestamp + alert dot.
+
+**Chat window:**
+- Full message history with iMessage-style bubbles
+- **Each team member gets a unique color** derived from their name (hash-based, so new members auto-get a color)
+- Creator messages: gray bubble, left-aligned, creator's accent color as left border
+- Team messages: colored bubble, right-aligned, right border accent
+- Sender name on every single bubble (audit requirement — Nathan vs Sarah is meaningful)
+- System messages for automated events (video submitted, chat created)
+- Day dividers
+
+**Reply bar:**
+- Shows "Sending as [name]" with color dot
+- Enter to send, Shift+Enter for newline
+- Sending a reply automatically clears reply-gap alert for that creator
+
+---
+
+### Screen 6 — Daily Check-in
+Tool for the VA to send daily check-in messages to creator group chats.
+
+**Left panel:** List of all group chats with last check-in timestamp. Shows:
+- Red "Overdue" badge if last check-in >24h ago
+- Amber color if last check-in >3h ago
+
+**Right panel:** Compose area with default message pre-filled:
+> "Hey! Just checking in — how's everything going? Any content ready for review or questions for Nathan? 🙌"
+
+**Behavior:**
+- Checkbox select per chat, select-all toggle
+- "Send Check-in to N chats" button
+- Sending marks chats as sent with timestamp, shows success toast
+- In production: sends via iMessage bridge
+
+---
+
+## 6. Pipeline Stage Auto-Derivation
+
+In production, the pipeline stage is computed from real events — not manually set. Logic:
+
+```
+if has approved active content AND posting_started_date exists → active
+else if warmup_video_approved → warmed
+else if warmup_video_submitted → warming_up
+else if handle_confirmed → handles_requested
+else if contract_signed_date exists → contracted
+else → joined
+```
+
+Manual drag-and-drop on the pipeline board is an **override only** (for edge cases like a contract falling through).
+
+---
+
+## 7. Inactivity & Alert Rules
+
+| Rule | Condition | Alert type |
+|---|---|---|
+| Posting gap | Active creator, no submission in 48h | `posting_gap` |
+| Reply gap | Group chat, no team reply in 4h | `reply_gap` |
+| Check-in overdue | No check-in message sent in 24h | Shown on check-in screen only |
+| Handle deadline | Handle not confirmed within 24h of request | `deadline_urgent` → `deadline_missed` |
+| Warmup deadline | Warmup video not submitted by deadline | `deadline_urgent` → `deadline_missed` |
+
+---
+
+## 8. iMessage Bridge
+
+The iMessage integration is the backbone of the real product. Architecture:
+
+```
+Mac mini (always on)
+  └── BlueBubbles app (reads local iMessage DB)
+      └── Webhooks → Backend API
+          └── Backend stores messages, triggers alert checks
+              └── CRM frontend reads from backend
+```
+
+**What the bridge needs to do:**
+- Forward incoming messages to backend (creator replies, Nathan feedback)
+- Accept outgoing message requests from backend (check-ins, team replies from CRM)
+- Identify which group chat a message belongs to (matched by phone number / chat GUID)
+
+**What is NOT sent through any third-party:** Raw message content stays on your Mac mini and your own backend. BlueBubbles is self-hosted.
+
+---
+
+## 9. Out of Scope (v1)
+
+- Mobile app (desktop browser only)
+- Multi-agency / multi-tenant (internal tool only)
+- Automated AI responses (VA sends manually via CRM)
+- Sideshift direct integration (manual logging for v1, webhook in v2)
+- Analytics / reporting dashboard
+- Creator-facing portal
+
+---
+
+## 10. Success Metrics
+
+| Metric | Target |
+|---|---|
+| Creator slip-through rate | 0 — every creator fully tracked from campaign link to active |
+| Check-in miss rate | 0 — CRM surfaces overdue check-ins before VA forgets |
+| Time to notice posting gap | <2h (down from 2+ days) |
+| Nathan feedback captured | 100% of rejection notes logged |
+| Pipeline accuracy | Stage always reflects reality (auto-derived) |
