@@ -1876,117 +1876,184 @@
   ::-webkit-scrollbar-thumb:hover { background: #4b5563; }
 
   /* ── VIDEOS SCREEN ── */
-  .videos-leaderboard {
+  .posts-stat-bar {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-    gap: 12px;
-    margin-bottom: 24px;
-  }
-  .vl-card {
-    background: var(--card);
+    grid-template-columns: repeat(4, 1fr);
     border: 1px solid var(--border);
     border-radius: 10px;
-    padding: 14px 16px;
-    cursor: pointer;
-    transition: border-color 0.15s;
-  }
-  .vl-card:hover { border-color: #4b5563; }
-  .vl-card.selected { border-color: var(--accent); }
-  .vl-card-rank { font-size: 11px; color: var(--text-muted); font-weight: 600; margin-bottom: 4px; }
-  .vl-card-name { font-size: 13px; font-weight: 700; color: var(--text-primary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  .vl-card-views { font-size: 18px; font-weight: 800; color: var(--text-primary); margin-top: 8px; }
-  .vl-card-sub { font-size: 11px; color: var(--text-muted); margin-top: 2px; }
-
-  .videos-filter-bar {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    padding: 14px 18px;
+    overflow: hidden;
     margin-bottom: 20px;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 14px;
-    align-items: center;
+    background: var(--card);
   }
-  .filter-group { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
-  .filter-label { font-size: 11px; font-weight: 700; color: var(--text-muted); letter-spacing: 0.06em; text-transform: uppercase; white-space: nowrap; }
-  .filter-chip {
-    font-size: 12px;
-    font-weight: 600;
-    padding: 4px 11px;
-    border-radius: 20px;
-    border: 1px solid var(--border);
-    background: transparent;
-    color: var(--text-secondary);
-    cursor: pointer;
-    transition: all 0.12s;
+  .posts-stat-item {
+    padding: 18px 22px;
+    border-right: 1px solid var(--border);
   }
-  .filter-chip:hover { border-color: #4b5563; color: var(--text-primary); }
-  .filter-chip.active { background: var(--accent); border-color: var(--accent); color: #fff; }
-  .filter-chip.plat-tt.active  { background: #010101; border-color: #010101; color: #fff; }
-  .filter-chip.plat-ig.active  { background: #e1306c; border-color: #e1306c; color: #fff; }
-  .filter-chip.plat-yt.active  { background: #ff0000; border-color: #ff0000; color: #fff; }
-  .filter-chip.plat-li.active  { background: #0a66c2; border-color: #0a66c2; color: #fff; }
-  .filter-divider { width: 1px; height: 28px; background: var(--border); }
+  .posts-stat-item:last-child { border-right: none; }
+  .posts-stat-icon-label {
+    display: flex; align-items: center; gap: 6px;
+    font-size: 12px; font-weight: 600; color: var(--text-muted);
+    margin-bottom: 6px;
+  }
+  .posts-stat-value { font-size: 24px; font-weight: 800; color: var(--text-primary); line-height: 1; }
 
-  .videos-table-wrap { overflow-x: auto; }
-  .videos-table {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 13px;
+  .posts-section {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    position: relative;
+    padding-bottom: 8px;
   }
-  .videos-table thead th {
-    text-align: left;
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    color: var(--text-muted);
-    padding: 8px 12px;
-    border-bottom: 1px solid var(--border);
-    white-space: nowrap;
+  .posts-section-header {
+    display: flex; align-items: flex-start; justify-content: space-between;
+    padding: 18px 20px 0;
   }
-  .videos-table tbody tr { border-bottom: 1px solid #1f2937; }
-  .videos-table tbody tr:last-child { border-bottom: none; }
-  .videos-table tbody tr:hover { background: rgba(255,255,255,0.02); }
-  .videos-table td { padding: 11px 12px; vertical-align: middle; }
-  .vid-title-cell { display: flex; align-items: center; gap: 10px; }
-  .vid-platform-icon {
-    width: 28px; height: 28px; border-radius: 6px;
+  .posts-section-title { font-size: 16px; font-weight: 700; color: var(--text-primary); }
+  .posts-section-sub { font-size: 13px; color: var(--text-muted); margin-top: 2px; }
+
+  .filters-btn {
+    display: flex; align-items: center; gap: 6px;
+    font-size: 13px; font-weight: 600;
+    padding: 7px 14px; border-radius: 8px;
+    border: 1px solid var(--border);
+    background: transparent; color: var(--text-secondary);
+    cursor: pointer; font-family: inherit; transition: all 0.12s;
+  }
+  .filters-btn:hover { border-color: #4b5563; color: var(--text-primary); }
+  .filters-btn.panel-open { border-color: var(--accent); color: var(--accent); }
+  .filters-badge {
+    background: #1d4ed8; color: #fff;
+    font-size: 10px; font-weight: 700;
+    width: 17px; height: 17px; border-radius: 50%;
     display: flex; align-items: center; justify-content: center;
-    font-size: 11px; font-weight: 800; flex-shrink: 0;
   }
-  .vid-platform-icon.tt { background: #1a1a1a; color: #fff; }
-  .vid-platform-icon.ig { background: rgba(225,48,108,0.15); color: #e1306c; }
-  .vid-platform-icon.yt { background: rgba(255,0,0,0.12); color: #ff4444; }
-  .vid-platform-icon.li { background: rgba(10,102,194,0.15); color: #0a66c2; }
-  .vid-title { font-weight: 600; color: var(--text-primary); }
-  .vid-creator-tag {
-    font-size: 11px; font-weight: 600; padding: 2px 7px; border-radius: 4px;
-    background: rgba(255,255,255,0.06); color: var(--text-secondary);
+
+  .posts-search-wrap { padding: 12px 20px 0; }
+  .posts-search {
+    width: 100%; box-sizing: border-box;
+    background: #111827; border: 1px solid var(--border);
+    border-radius: 8px; padding: 9px 14px 9px 36px;
+    font-size: 13px; color: var(--text-primary);
+    outline: none; font-family: inherit;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%236b7280' stroke-width='2'%3E%3Ccircle cx='11' cy='11' r='8'/%3E%3Cpath d='m21 21-4.35-4.35'/%3E%3C/svg%3E");
+    background-repeat: no-repeat; background-position: 12px center;
   }
-  .vid-stat { font-weight: 700; color: var(--text-primary); }
-  .vid-stat-sub { font-size: 11px; color: var(--text-muted); }
-  .vid-watch-link {
+  .posts-search::placeholder { color: #6b7280; }
+  .posts-search:focus { border-color: var(--accent); }
+
+  .posts-table-wrap { overflow-x: auto; padding-top: 12px; }
+  .posts-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  .posts-table thead th {
+    text-align: left; font-size: 12px; font-weight: 500;
+    color: var(--text-muted); padding: 8px 16px;
+    border-bottom: 1px solid var(--border); white-space: nowrap;
+  }
+  .posts-table tbody tr { border-bottom: 1px solid #1a2332; }
+  .posts-table tbody tr:last-child { border-bottom: none; }
+  .posts-table tbody tr:hover { background: rgba(255,255,255,0.02); }
+  .posts-table td { padding: 11px 16px; vertical-align: middle; }
+
+  .ptable-creator { display: flex; align-items: center; gap: 10px; }
+  .ptable-avatar {
+    width: 32px; height: 32px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 11px; font-weight: 700; color: #fff; flex-shrink: 0;
+  }
+  .ptable-creator-name { font-size: 13px; font-weight: 600; color: var(--text-primary); white-space: nowrap; }
+
+  .ptable-plat-icon {
+    width: 24px; height: 24px; border-radius: 5px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 10px; font-weight: 800;
+  }
+  .ptable-plat-icon.tt { background: #000; color: #fff; }
+  .ptable-plat-icon.ig { background: linear-gradient(135deg,#f09433,#dc2743,#bc1888); color: #fff; }
+  .ptable-plat-icon.yt { background: #ff0000; color: #fff; }
+  .ptable-plat-icon.li { background: #0a66c2; color: #fff; }
+
+  .ptable-post { display: flex; align-items: center; gap: 10px; }
+  .ptable-thumb {
+    width: 42px; height: 42px; border-radius: 6px; flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 15px; color: rgba(255,255,255,0.5);
+  }
+  .ptable-post-title {
+    font-size: 13px; color: var(--text-primary); font-weight: 500;
+    max-width: 200px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  }
+  .ptable-metric-val { font-weight: 700; color: var(--text-primary); }
+  .ptable-watch {
     display: inline-flex; align-items: center; gap: 4px;
     font-size: 12px; font-weight: 600; color: #60a5fa;
     text-decoration: none; padding: 4px 10px; border-radius: 6px;
-    background: rgba(59,130,246,0.1);
-    transition: background 0.12s;
+    background: rgba(59,130,246,0.1); transition: background 0.12s;
   }
-  .vid-watch-link:hover { background: rgba(59,130,246,0.2); }
-  .videos-empty {
-    padding: 40px;
-    text-align: center;
-    color: var(--text-muted);
-    font-size: 14px;
+  .ptable-watch:hover { background: rgba(59,130,246,0.2); }
+
+  /* Filter panel */
+  .filter-panel {
+    position: absolute; top: 52px; right: 20px;
+    width: 290px;
+    background: #162032;
+    border: 1px solid var(--border); border-radius: 10px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+    z-index: 200; padding: 18px 18px 14px;
+    display: none;
   }
-  .videos-result-count {
-    font-size: 12px;
-    color: var(--text-muted);
-    margin-bottom: 10px;
-    font-weight: 500;
+  .filter-panel.open { display: block; }
+  .filter-panel-title { font-size: 13px; font-weight: 700; color: var(--text-primary); margin-bottom: 14px; }
+  .fp-section { margin-bottom: 14px; }
+  .fp-section-label {
+    font-size: 11px; font-weight: 700; color: var(--text-muted);
+    letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 6px;
   }
+  .fp-dropdown { position: relative; }
+  .fp-dropdown-btn {
+    width: 100%; box-sizing: border-box;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 8px 12px; border: 1px solid var(--border); border-radius: 8px;
+    background: #111827; color: var(--text-primary);
+    font-size: 13px; font-weight: 500; cursor: pointer; font-family: inherit;
+    text-align: left;
+  }
+  .fp-dropdown-btn:hover { border-color: #4b5563; }
+  .fp-dropdown-list {
+    position: absolute; top: calc(100% + 4px); left: 0; right: 0;
+    background: #162032; border: 1px solid var(--border); border-radius: 8px;
+    z-index: 10; display: none; max-height: 180px; overflow-y: auto;
+  }
+  .fp-dropdown-list.open { display: block; }
+  .fp-option {
+    display: flex; align-items: center; gap: 8px;
+    padding: 9px 12px; cursor: pointer;
+    font-size: 13px; color: var(--text-secondary); transition: background 0.1s;
+  }
+  .fp-option:hover { background: rgba(255,255,255,0.04); }
+  .fp-option.selected { color: var(--text-primary); }
+  .fp-checkbox {
+    width: 14px; height: 14px; border-radius: 3px;
+    border: 1.5px solid #4b5563;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0; font-size: 9px; color: #fff;
+  }
+  .fp-checkbox.checked { background: var(--accent); border-color: var(--accent); }
+  .fp-date-pills { display: flex; gap: 6px; flex-wrap: wrap; }
+  .fp-date-pill {
+    padding: 5px 12px; border-radius: 20px;
+    border: 1px solid var(--border);
+    font-size: 12px; font-weight: 600; color: var(--text-secondary);
+    cursor: pointer; background: transparent; font-family: inherit;
+  }
+  .fp-date-pill:hover { border-color: #4b5563; }
+  .fp-date-pill.active { background: var(--accent); border-color: var(--accent); color: #fff; }
+  .fp-clear-btn {
+    width: 100%; margin-top: 6px; padding: 8px;
+    border-radius: 8px; border: 1px solid var(--border);
+    background: transparent; color: var(--text-muted);
+    font-size: 12px; font-weight: 600; cursor: pointer; font-family: inherit;
+  }
+  .fp-clear-btn:hover { color: var(--text-secondary); border-color: #4b5563; }
+  .posts-empty { padding: 40px; text-align: center; color: var(--text-muted); font-size: 14px; }
 
   /* ── TODAY SCREEN ── */
   .today-grid {
@@ -4242,9 +4309,13 @@ document.querySelector('.creator-list-table thead').addEventListener('click', e 
 // ── INIT ──────────────────────────────────────────────────────────────────
 // ── SCREEN: VIDEOS ────────────────────────────────────────────────────────
 const videoFilters = {
-  platforms: new Set(),   // empty = all platforms
-  period: 'all',          // 'week' | '30days' | 'all'
-  creators: new Set(),    // empty = all creators
+  platforms: new Set(),
+  period: 'all',
+  creators: new Set(),
+  filterPanelOpen: false,
+  creatorDropdownOpen: false,
+  platformDropdownOpen: false,
+  searchQuery: '',
 };
 
 const PLAT_META = {
@@ -4258,163 +4329,179 @@ function renderVideos() {
   const wrap = document.getElementById('videos-content');
   if (!wrap) return;
 
-  // Flatten all videos from all creators
   const allVideos = [];
-  DATA.creators.forEach(c => {
-    (c.content || []).forEach(v => {
-      allVideos.push({ ...v, creator: c });
-    });
-  });
+  DATA.creators.forEach(c => (c.content || []).forEach(v => allVideos.push({ ...v, creator: c })));
 
-  // Leaderboard: total approved views per creator, sorted desc
-  const leaderboard = DATA.creators.map(c => {
-    const totalViews = (c.content || [])
-      .filter(v => v.status === 'approved' && v.views)
-      .reduce((s, v) => s + v.views, 0);
-    const totalPosts = (c.content || []).filter(v => v.status === 'approved').length;
-    return { creator: c, totalViews, totalPosts };
-  }).sort((a, b) => b.totalViews - a.totalViews);
+  const approved = allVideos.filter(v => v.status === 'approved');
+  const totalPosts    = approved.length;
+  const totalViews    = approved.reduce((s, v) => s + (v.views    || 0), 0);
+  const totalLikes    = approved.reduce((s, v) => s + (v.likes    || 0), 0);
+  const totalComments = approved.reduce((s, v) => s + (v.comments || 0), 0);
+  const avgEng = totalViews > 0
+    ? ((totalLikes + totalComments) / totalViews * 100).toFixed(1)
+    : '0.0';
 
-  // Apply filters
   let filtered = allVideos.filter(v => {
     if (videoFilters.platforms.size > 0 && !videoFilters.platforms.has(v.platform)) return false;
-    if (videoFilters.creators.size > 0 && !videoFilters.creators.has(v.creator.id)) return false;
-    if (videoFilters.period === 'week'   && v.posted_ts < NOW - (7  * DAY)) return false;
-    if (videoFilters.period === '30days' && v.posted_ts < NOW - (30 * DAY)) return false;
+    if (videoFilters.creators.size  > 0 && !videoFilters.creators.has(v.creator.id)) return false;
+    if (videoFilters.period === 'week'   && v.posted_ts < NOW - 7  * DAY) return false;
+    if (videoFilters.period === '30days' && v.posted_ts < NOW - 30 * DAY) return false;
+    if (videoFilters.searchQuery) {
+      const q = videoFilters.searchQuery.toLowerCase();
+      if (!v.title.toLowerCase().includes(q) && !v.creator.name.toLowerCase().includes(q)) return false;
+    }
     return true;
   });
-
-  // Sort by views desc (nulls last), then by posted_ts
   filtered.sort((a, b) => {
     if (b.views && !a.views) return 1;
     if (a.views && !b.views) return -1;
-    if (b.views && a.views) return b.views - a.views;
+    if (b.views && a.views)  return b.views - a.views;
     return (b.posted_ts || 0) - (a.posted_ts || 0);
   });
 
-  // Available platforms in current data
-  const allPlatforms = [...new Set(allVideos.map(v => v.platform))].sort();
+  const allPlatforms   = [...new Set(allVideos.map(v => v.platform))];
+  const creatorsWithContent = DATA.creators.filter(c => (c.content || []).length > 0);
+  const activeFilters  = videoFilters.platforms.size + videoFilters.creators.size + (videoFilters.period !== 'all' ? 1 : 0);
+
+  const platLabel = videoFilters.platforms.size === 0
+    ? 'All platforms'
+    : [...videoFilters.platforms].map(p => PLAT_META[p]?.label || p).join(', ');
+  const creatorLabel = videoFilters.creators.size === 0
+    ? 'All creators'
+    : [...videoFilters.creators].map(id => DATA.creators.find(c => c.id === id)?.name.split(' ')[0]).join(', ');
 
   wrap.innerHTML = `
-    <!-- Leaderboard -->
-    <div class="videos-leaderboard">
-      ${leaderboard.map((r, i) => {
-        const isActive = videoFilters.creators.has(r.creator.id);
-        return `<div class="vl-card ${isActive ? 'selected' : ''}" data-creator-id="${r.creator.id}" onclick="toggleCreatorFilter('${r.creator.id}')">
-          <div class="vl-card-rank">#${i+1} ${r.creator.type === 'boosted' ? '⬡ boosted' : 'regular'}</div>
-          <div class="vl-card-name">${r.creator.name}</div>
-          <div class="vl-card-views">${formatViews(r.totalViews)}</div>
-          <div class="vl-card-sub">${r.totalPosts} videos published</div>
-        </div>`;
-      }).join('')}
-    </div>
-
-    <!-- Filter bar -->
-    <div class="videos-filter-bar">
-      <div class="filter-group">
-        <span class="filter-label">Platform</span>
-        <button class="filter-chip ${videoFilters.platforms.size === 0 ? 'active' : ''}" onclick="setPlatformFilter('all')">All</button>
-        ${allPlatforms.map(p => {
-          const m = PLAT_META[p] || { label: p, short: p.slice(0,2).toUpperCase(), cls: '' };
-          const isActive = videoFilters.platforms.has(p);
-          return `<button class="filter-chip plat-${m.cls} ${isActive ? 'active' : ''}" onclick="setPlatformFilter('${p}')">${m.label}</button>`;
-        }).join('')}
+    <div class="posts-stat-bar">
+      <div class="posts-stat-item">
+        <div class="posts-stat-icon-label">📄 Total Posts</div>
+        <div class="posts-stat-value">${totalPosts}</div>
       </div>
-      <div class="filter-divider"></div>
-      <div class="filter-group">
-        <span class="filter-label">Period</span>
-        ${[['week','This week'],['30days','30 days'],['all','All time']].map(([val,label]) =>
-          `<button class="filter-chip ${videoFilters.period === val ? 'active' : ''}" onclick="setPeriodFilter('${val}')">${label}</button>`
-        ).join('')}
+      <div class="posts-stat-item">
+        <div class="posts-stat-icon-label">👁 Total Views</div>
+        <div class="posts-stat-value">${formatViews(totalViews)}</div>
       </div>
-      <div class="filter-divider"></div>
-      <div class="filter-group">
-        <span class="filter-label">Creator</span>
-        <button class="filter-chip ${videoFilters.creators.size === 0 ? 'active' : ''}" onclick="clearCreatorFilter()">All</button>
-        ${DATA.creators.map(c => {
-          const isActive = videoFilters.creators.has(c.id);
-          return `<button class="filter-chip ${isActive ? 'active' : ''}" onclick="toggleCreatorFilter('${c.id}')">${c.name.split(' ')[0]}</button>`;
-        }).join('')}
+      <div class="posts-stat-item">
+        <div class="posts-stat-icon-label">❤ Total Likes</div>
+        <div class="posts-stat-value">${formatViews(totalLikes)}</div>
+      </div>
+      <div class="posts-stat-item">
+        <div class="posts-stat-icon-label">📈 Avg Engagement</div>
+        <div class="posts-stat-value">${avgEng}%</div>
       </div>
     </div>
 
-    <!-- Results -->
-    <div class="videos-result-count">${filtered.length} video${filtered.length !== 1 ? 's' : ''}</div>
-    ${filtered.length === 0
-      ? '<div class="videos-empty">No videos match the current filters.</div>'
-      : `<div class="videos-table-wrap"><table class="videos-table">
-          <thead>
-            <tr>
-              <th>Video</th>
-              <th>Creator</th>
-              <th>Posted</th>
-              <th>Views</th>
-              <th>Likes</th>
-              <th>Comments</th>
-              <th>Status</th>
-              <th>Watch</th>
-            </tr>
-          </thead>
-          <tbody>
-            ${filtered.map(v => {
-              const m = PLAT_META[v.platform] || { short: '?', cls: '' };
-              const posted = v.posted_ts
-                ? new Date(v.posted_ts).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
-                : '—';
-              const statusHtml = v.status === 'approved'
-                ? '<span class="status-pill pill-approved">✓ Live</span>'
-                : `<span class="status-pill pill-pending">⏳ ${v.reviewer || 'Pending'}</span>`;
-              const watchHtml = v.url
-                ? `<a href="${v.url}" target="_blank" rel="noopener" class="vid-watch-link" title="Demo — placeholder URL">↗ Watch</a>`
-                : '<span style="color:var(--text-muted);font-size:12px;">—</span>';
-              return `<tr>
-                <td>
-                  <div class="vid-title-cell">
-                    <div class="vid-platform-icon ${m.cls}">${m.short}</div>
-                    <span class="vid-title">${v.title}</span>
-                  </div>
-                </td>
-                <td><span class="vid-creator-tag">${v.creator.name.split(' ')[0]}</span></td>
-                <td style="color:var(--text-secondary);white-space:nowrap;">${posted}</td>
-                <td><span class="vid-stat">${v.views ? formatViews(v.views) : '—'}</span></td>
-                <td><span class="vid-stat">${v.likes ? formatViews(v.likes) : '—'}</span></td>
-                <td><span class="vid-stat">${v.comments ? v.comments.toLocaleString() : '—'}</span></td>
-                <td>${statusHtml}</td>
-                <td>${watchHtml}</td>
-              </tr>`;
-            }).join('')}
-          </tbody>
-        </table></div>`
-    }
+    <div class="posts-section">
+      <div class="posts-section-header">
+        <div>
+          <div class="posts-section-title">Posts</div>
+          <div class="posts-section-sub">View posts from your creators</div>
+        </div>
+        <button class="filters-btn ${videoFilters.filterPanelOpen ? 'panel-open' : ''}" onclick="toggleFilterPanel()">
+          ⚙ Filters${activeFilters > 0 ? ` <span class="filters-badge">${activeFilters}</span>` : ''}
+        </button>
+      </div>
+
+      <div class="filter-panel ${videoFilters.filterPanelOpen ? 'open' : ''}">
+        <div class="filter-panel-title">Filters</div>
+
+        <div class="fp-section">
+          <div class="fp-section-label">Platform</div>
+          <div class="fp-dropdown">
+            <button class="fp-dropdown-btn" onclick="togglePlatformDropdown(event)">${platLabel} <span>▾</span></button>
+            <div class="fp-dropdown-list ${videoFilters.platformDropdownOpen ? 'open' : ''}">
+              ${allPlatforms.map(p => {
+                const m = PLAT_META[p] || { label: p };
+                const chk = videoFilters.platforms.has(p);
+                return `<div class="fp-option ${chk ? 'selected' : ''}" onclick="togglePlatformFilter('${p}')">
+                  <div class="fp-checkbox ${chk ? 'checked' : ''}">${chk ? '✓' : ''}</div>${m.label}
+                </div>`;
+              }).join('')}
+            </div>
+          </div>
+        </div>
+
+        <div class="fp-section">
+          <div class="fp-section-label">Creators</div>
+          <div class="fp-dropdown">
+            <button class="fp-dropdown-btn" onclick="toggleCreatorDropdown(event)">${creatorLabel} <span>▾</span></button>
+            <div class="fp-dropdown-list ${videoFilters.creatorDropdownOpen ? 'open' : ''}">
+              ${creatorsWithContent.map(c => {
+                const chk = videoFilters.creators.has(c.id);
+                return `<div class="fp-option ${chk ? 'selected' : ''}" onclick="toggleCreatorFilter('${c.id}')">
+                  <div class="fp-checkbox ${chk ? 'checked' : ''}">${chk ? '✓' : ''}</div>${c.name}
+                </div>`;
+              }).join('')}
+            </div>
+          </div>
+        </div>
+
+        <div class="fp-section">
+          <div class="fp-section-label">Date Range</div>
+          <div class="fp-date-pills">
+            ${[['all','All Time'],['week','This Week'],['30days','30 Days']].map(([val, lbl]) =>
+              `<button class="fp-date-pill ${videoFilters.period === val ? 'active' : ''}" onclick="setPeriodFilter('${val}')">${lbl}</button>`
+            ).join('')}
+          </div>
+        </div>
+
+        ${activeFilters > 0 ? `<button class="fp-clear-btn" onclick="clearAllVideoFilters()">Clear all filters</button>` : ''}
+      </div>
+
+      <div class="posts-search-wrap">
+        <input class="posts-search" type="text" placeholder="Search posts..." value="${videoFilters.searchQuery}" oninput="setVideoSearch(this.value)">
+      </div>
+
+      ${filtered.length === 0
+        ? '<div class="posts-empty">No posts match the current filters.</div>'
+        : `<div class="posts-table-wrap">
+            <table class="posts-table">
+              <thead><tr>
+                <th>Creator</th><th>Platform</th><th>Post</th>
+                <th>Views</th><th>Likes</th><th>Comments</th><th></th>
+              </tr></thead>
+              <tbody>
+                ${filtered.map(v => {
+                  const m = PLAT_META[v.platform] || { short: '?', cls: '' };
+                  const posted = v.posted_ts
+                    ? new Date(v.posted_ts).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
+                    : '—';
+                  const thumb = `<div class="ptable-thumb" style="background:linear-gradient(135deg,${v.creator.color}66,${v.creator.color}22);">▶</div>`;
+                  return `<tr>
+                    <td><div class="ptable-creator">
+                      <div class="ptable-avatar" style="background:${v.creator.color}">${v.creator.avatar_initials}</div>
+                      <span class="ptable-creator-name">${v.creator.name}</span>
+                    </div></td>
+                    <td><div class="ptable-plat-icon ${m.cls}">${m.short}</div></td>
+                    <td><div class="ptable-post">${thumb}<span class="ptable-post-title" title="${v.title}">${v.title}</span></div></td>
+                    <td><span class="ptable-metric-val">${v.views ? formatViews(v.views) : '<span style="color:var(--text-muted);font-size:12px;">Pending</span>'}</span></td>
+                    <td><span class="ptable-metric-val">${v.likes    ? formatViews(v.likes) : '—'}</span></td>
+                    <td><span class="ptable-metric-val">${v.comments ? v.comments.toLocaleString() : '—'}</span></td>
+                    <td>${v.url ? `<a href="${v.url}" target="_blank" rel="noopener" class="ptable-watch">↗ Watch</a>` : ''}</td>
+                  </tr>`;
+                }).join('')}
+              </tbody>
+            </table>
+          </div>`
+      }
+    </div>
   `;
 }
 
-function setPlatformFilter(p) {
-  if (p === 'all') {
-    videoFilters.platforms.clear();
-  } else {
-    if (videoFilters.platforms.has(p)) videoFilters.platforms.delete(p);
-    else videoFilters.platforms.add(p);
-    if (videoFilters.platforms.size === 0); // stays empty = all
+function toggleFilterPanel() {
+  videoFilters.filterPanelOpen = !videoFilters.filterPanelOpen;
+  if (!videoFilters.filterPanelOpen) {
+    videoFilters.creatorDropdownOpen = false;
+    videoFilters.platformDropdownOpen = false;
   }
   renderVideos();
 }
-
-function setPeriodFilter(p) {
-  videoFilters.period = p;
-  renderVideos();
-}
-
-function toggleCreatorFilter(id) {
-  if (videoFilters.creators.has(id)) videoFilters.creators.delete(id);
-  else videoFilters.creators.add(id);
-  renderVideos();
-}
-
-function clearCreatorFilter() {
-  videoFilters.creators.clear();
-  renderVideos();
-}
+function togglePlatformDropdown(e) { e && e.stopPropagation(); videoFilters.platformDropdownOpen = !videoFilters.platformDropdownOpen; videoFilters.creatorDropdownOpen = false; renderVideos(); }
+function toggleCreatorDropdown(e)  { e && e.stopPropagation(); videoFilters.creatorDropdownOpen  = !videoFilters.creatorDropdownOpen;  videoFilters.platformDropdownOpen = false; renderVideos(); }
+function togglePlatformFilter(p)   { videoFilters.platforms.has(p) ? videoFilters.platforms.delete(p) : videoFilters.platforms.add(p); renderVideos(); }
+function toggleCreatorFilter(id)   { videoFilters.creators.has(id)  ? videoFilters.creators.delete(id)  : videoFilters.creators.add(id);  renderVideos(); }
+function setPeriodFilter(p)        { videoFilters.period = p; renderVideos(); }
+function clearAllVideoFilters()    { videoFilters.platforms.clear(); videoFilters.creators.clear(); videoFilters.period = 'all'; videoFilters.searchQuery = ''; renderVideos(); }
+function setVideoSearch(q)         { videoFilters.searchQuery = q; renderVideos(); }
 
 // ── SCREEN: TODAY ─────────────────────────────────────────────────────────
 function renderToday() {
