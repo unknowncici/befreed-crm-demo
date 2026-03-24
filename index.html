@@ -2037,15 +2037,23 @@
     flex-shrink: 0; font-size: 9px; color: #fff;
   }
   .fp-checkbox.checked { background: var(--accent); border-color: var(--accent); }
-  .fp-date-pills { display: flex; gap: 6px; flex-wrap: wrap; }
-  .fp-date-pill {
-    padding: 5px 12px; border-radius: 20px;
-    border: 1px solid var(--border);
-    font-size: 12px; font-weight: 600; color: var(--text-secondary);
-    cursor: pointer; background: transparent; font-family: inherit;
+  .fp-date-range { display: flex; flex-direction: column; gap: 6px; }
+  .fp-date-row { display: flex; align-items: center; gap: 8px; }
+  .fp-date-label { font-size: 11px; color: var(--text-muted); width: 32px; flex-shrink: 0; }
+  .fp-date-input {
+    flex: 1; padding: 7px 10px;
+    background: #111827; border: 1px solid var(--border);
+    border-radius: 7px; color: var(--text-primary);
+    font-size: 12px; font-family: inherit; outline: none;
+    color-scheme: dark;
   }
-  .fp-date-pill:hover { border-color: #4b5563; }
-  .fp-date-pill.active { background: var(--accent); border-color: var(--accent); color: #fff; }
+  .fp-date-input:focus { border-color: var(--accent); }
+  .fp-date-clear {
+    font-size: 11px; color: var(--text-muted); cursor: pointer;
+    padding: 2px 6px; border-radius: 4px;
+    background: transparent; border: none; font-family: inherit;
+  }
+  .fp-date-clear:hover { color: var(--text-secondary); }
   .fp-clear-btn {
     width: 100%; margin-top: 6px; padding: 8px;
     border-radius: 8px; border: 1px solid var(--border);
@@ -2262,7 +2270,7 @@
       <span class="nav-icon">◎</span> Creators
     </div>
     <div class="nav-item" data-screen="videos">
-      <span class="nav-icon">▶</span> Videos
+      <span class="nav-icon">▶</span> Posts
     </div>
     <!-- hidden: today, onboarding, stats — accessible via navigate() for dev use -->
     <div class="nav-item" data-screen="today" style="display:none;">
@@ -4310,7 +4318,8 @@ document.querySelector('.creator-list-table thead').addEventListener('click', e 
 // ── SCREEN: VIDEOS ────────────────────────────────────────────────────────
 const videoFilters = {
   platforms: new Set(),
-  period: 'all',
+  dateFrom: '',   // 'YYYY-MM-DD' or ''
+  dateTo:   '',   // 'YYYY-MM-DD' or ''
   creators: new Set(),
   filterPanelOpen: false,
   creatorDropdownOpen: false,
@@ -4344,8 +4353,8 @@ function renderVideos() {
   let filtered = allVideos.filter(v => {
     if (videoFilters.platforms.size > 0 && !videoFilters.platforms.has(v.platform)) return false;
     if (videoFilters.creators.size  > 0 && !videoFilters.creators.has(v.creator.id)) return false;
-    if (videoFilters.period === 'week'   && v.posted_ts < NOW - 7  * DAY) return false;
-    if (videoFilters.period === '30days' && v.posted_ts < NOW - 30 * DAY) return false;
+    if (videoFilters.dateFrom && v.posted_ts < new Date(videoFilters.dateFrom).getTime()) return false;
+    if (videoFilters.dateTo   && v.posted_ts > new Date(videoFilters.dateTo).getTime() + DAY)  return false;
     if (videoFilters.searchQuery) {
       const q = videoFilters.searchQuery.toLowerCase();
       if (!v.title.toLowerCase().includes(q) && !v.creator.name.toLowerCase().includes(q)) return false;
@@ -4361,7 +4370,7 @@ function renderVideos() {
 
   const allPlatforms   = [...new Set(allVideos.map(v => v.platform))];
   const creatorsWithContent = DATA.creators.filter(c => (c.content || []).length > 0);
-  const activeFilters  = videoFilters.platforms.size + videoFilters.creators.size + (videoFilters.period !== 'all' ? 1 : 0);
+  const activeFilters  = videoFilters.platforms.size + videoFilters.creators.size + (videoFilters.dateFrom || videoFilters.dateTo ? 1 : 0);
 
   const platLabel = videoFilters.platforms.size === 0
     ? 'All platforms'
@@ -4437,10 +4446,17 @@ function renderVideos() {
 
         <div class="fp-section">
           <div class="fp-section-label">Date Range</div>
-          <div class="fp-date-pills">
-            ${[['all','All Time'],['week','This Week'],['30days','30 Days']].map(([val, lbl]) =>
-              `<button class="fp-date-pill ${videoFilters.period === val ? 'active' : ''}" onclick="setPeriodFilter('${val}')">${lbl}</button>`
-            ).join('')}
+          <div class="fp-date-range">
+            <div class="fp-date-row">
+              <span class="fp-date-label">From</span>
+              <input class="fp-date-input" type="date" value="${videoFilters.dateFrom}" onchange="setVideoDateFrom(this.value)">
+              ${videoFilters.dateFrom ? `<button class="fp-date-clear" onclick="setVideoDateFrom('')">✕</button>` : ''}
+            </div>
+            <div class="fp-date-row">
+              <span class="fp-date-label">To</span>
+              <input class="fp-date-input" type="date" value="${videoFilters.dateTo}" onchange="setVideoDateTo(this.value)">
+              ${videoFilters.dateTo ? `<button class="fp-date-clear" onclick="setVideoDateTo('')">✕</button>` : ''}
+            </div>
           </div>
         </div>
 
@@ -4499,8 +4515,9 @@ function togglePlatformDropdown(e) { e && e.stopPropagation(); videoFilters.plat
 function toggleCreatorDropdown(e)  { e && e.stopPropagation(); videoFilters.creatorDropdownOpen  = !videoFilters.creatorDropdownOpen;  videoFilters.platformDropdownOpen = false; renderVideos(); }
 function togglePlatformFilter(p)   { videoFilters.platforms.has(p) ? videoFilters.platforms.delete(p) : videoFilters.platforms.add(p); renderVideos(); }
 function toggleCreatorFilter(id)   { videoFilters.creators.has(id)  ? videoFilters.creators.delete(id)  : videoFilters.creators.add(id);  renderVideos(); }
-function setPeriodFilter(p)        { videoFilters.period = p; renderVideos(); }
-function clearAllVideoFilters()    { videoFilters.platforms.clear(); videoFilters.creators.clear(); videoFilters.period = 'all'; videoFilters.searchQuery = ''; renderVideos(); }
+function setVideoDateFrom(v)       { videoFilters.dateFrom = v; renderVideos(); }
+function setVideoDateTo(v)         { videoFilters.dateTo   = v; renderVideos(); }
+function clearAllVideoFilters()    { videoFilters.platforms.clear(); videoFilters.creators.clear(); videoFilters.dateFrom = ''; videoFilters.dateTo = ''; videoFilters.searchQuery = ''; renderVideos(); }
 function setVideoSearch(q)         { videoFilters.searchQuery = q; renderVideos(); }
 
 // ── SCREEN: TODAY ─────────────────────────────────────────────────────────
