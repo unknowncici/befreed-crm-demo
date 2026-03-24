@@ -317,95 +317,69 @@
   .badge-regular { background: rgba(59,130,246,0.15); color: #60a5fa; }
 
   /* ── SCREEN 2: ALERTS ── */
-  .alert-list {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    max-width: 760px;
+  /* ── ACTION QUEUE ── */
+  .aq-wrap { max-width: 800px; }
+  .aq-section { margin-bottom: 28px; }
+  .aq-section-header {
+    display: flex; align-items: center; gap: 8px;
+    font-size: 11px; font-weight: 700; letter-spacing: 0.08em;
+    text-transform: uppercase; color: var(--text-muted);
+    margin-bottom: 10px;
   }
-
-  .alert-card {
-    background: var(--card-bg);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 16px 18px;
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    transition: all 0.2s ease;
+  .aq-section-count {
+    font-size: 11px; font-weight: 700;
+    background: rgba(255,255,255,0.08); color: var(--text-secondary);
+    padding: 1px 7px; border-radius: 10px;
   }
-
-  .alert-card.fading {
-    opacity: 0;
-    transform: translateX(20px);
+  .aq-task {
+    display: flex; align-items: center; gap: 14px;
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 10px; padding: 13px 16px;
+    margin-bottom: 8px;
+    border-left-width: 3px;
+    transition: opacity 0.2s, transform 0.2s;
   }
+  .aq-task.fading { opacity: 0; transform: translateX(16px); }
+  .aq-task.nudge   { border-left-color: #ef4444; }
+  .aq-task.checkin { border-left-color: #f59e0b; }
+  .aq-task.review  { border-left-color: #3b82f6; }
+  .aq-task.reply   { border-left-color: #ef4444; }
+  .aq-task.onboarding { border-left-color: #8b5cf6; }
 
-  .alert-indicator {
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    flex-shrink: 0;
+  .aq-avatar {
+    width: 34px; height: 34px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 11px; font-weight: 700; color: #fff; flex-shrink: 0;
   }
-
-  .alert-indicator.red { background: var(--alert-red); animation: pulse-dot 1.5s infinite; }
-  .alert-indicator.amber { background: var(--warning-amber); }
-  .alert-indicator.flash {
-    background: var(--alert-red);
-    animation: flash-pulse 0.8s infinite;
-  }
-
-  @keyframes flash-pulse {
-    0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(239,68,68,0.5); }
-    50% { opacity: 0.6; box-shadow: 0 0 0 4px rgba(239,68,68,0); }
-  }
-
-  .alert-content { flex: 1; }
-
-  .alert-title {
-    font-size: 14px;
-    font-weight: 600;
-    color: var(--text-primary);
-    margin-bottom: 3px;
-  }
-
-  .alert-meta {
-    font-size: 12px;
-    color: var(--text-secondary);
-    display: flex;
-    gap: 12px;
-    flex-wrap: wrap;
-  }
-
-  .alert-time {
-    font-size: 12px;
-    font-weight: 600;
-    padding: 2px 8px;
-    border-radius: 6px;
-  }
-
-  .alert-time.red { background: rgba(239,68,68,0.15); color: #fca5a5; }
-  .alert-time.amber { background: rgba(245,158,11,0.15); color: #fcd34d; }
-  .alert-time.flash { background: rgba(239,68,68,0.25); color: #fca5a5; }
-
-  .resolve-btn {
-    background: rgba(255,255,255,0.05);
-    border: 1px solid var(--border);
-    color: var(--text-secondary);
-    font-size: 12px;
-    font-weight: 500;
-    padding: 6px 14px;
-    border-radius: 7px;
-    cursor: pointer;
-    transition: all 0.15s ease;
+  .aq-body { flex: 1; min-width: 0; }
+  .aq-creator { font-size: 13px; font-weight: 700; color: var(--text-primary); }
+  .aq-desc { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+  .aq-owner {
+    font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: 4px;
+    background: rgba(255,255,255,0.06); color: var(--text-secondary);
     white-space: nowrap;
-    font-family: inherit;
   }
+  .aq-wait {
+    font-size: 12px; font-weight: 700; white-space: nowrap;
+    padding: 3px 8px; border-radius: 6px;
+  }
+  .aq-wait.red   { background: rgba(239,68,68,0.12); color: #fca5a5; }
+  .aq-wait.amber { background: rgba(245,158,11,0.12); color: #fcd34d; }
+  .aq-wait.blue  { background: rgba(59,130,246,0.12); color: #93c5fd; }
+  .aq-wait.purple{ background: rgba(139,92,246,0.12); color: #c4b5fd; }
 
-  .resolve-btn:hover {
-    background: rgba(16,185,129,0.12);
-    border-color: var(--success-green);
-    color: var(--success-green);
+  .aq-done-btn {
+    background: transparent; border: 1px solid var(--border);
+    color: var(--text-muted); font-size: 12px; font-weight: 600;
+    padding: 5px 13px; border-radius: 7px; cursor: pointer;
+    white-space: nowrap; font-family: inherit; transition: all 0.15s;
   }
+  .aq-done-btn:hover { background: rgba(16,185,129,0.1); border-color: #10b981; color: #10b981; }
+  .aq-empty {
+    text-align: center; padding: 48px 0;
+    color: var(--text-muted); font-size: 14px;
+  }
+  .aq-empty-icon { font-size: 32px; margin-bottom: 10px; }
 
   .empty-state {
     text-align: center;
@@ -2283,8 +2257,8 @@
       <span class="nav-icon">📊</span> Stats
     </div>
     <div class="nav-item" data-screen="alerts" id="alerts-nav">
-      <span class="nav-icon">⚡</span> Alerts
-      <span class="nav-badge" id="alert-count">3</span>
+      <span class="nav-icon">✓</span> Action Queue
+      <span class="nav-badge" id="alert-count"></span>
     </div>
     <div class="nav-item" data-screen="detail" id="detail-nav" style="display:none;">
       <span class="nav-icon">👤</span> Creator Detail
@@ -2404,10 +2378,10 @@
   <!-- ── SCREEN 2: ALERTS ── -->
   <section class="screen" id="screen-alerts">
     <div class="screen-header">
-      <div class="screen-title">Gap Alerts</div>
-      <div class="screen-subtitle">Reply gaps and deadline warnings, sorted by urgency</div>
+      <div class="screen-title">Action Queue</div>
+      <div class="screen-subtitle">Operational tasks that need to be handled — grouped by type</div>
     </div>
-    <div class="alert-list" id="alert-list"></div>
+    <div id="action-queue"></div>
   </section>
 
   <!-- ── SCREEN 3: DETAIL ── -->
@@ -3255,63 +3229,164 @@ function makeCreatorCard(creator) {
 }
 
 // ── SCREEN 2: ALERTS ──────────────────────────────────────────────────────
-function renderAlerts() {
-  const list = document.getElementById('alert-list');
-  const active = DATA.alerts.filter(a => !state.resolvedAlerts.has(a.id));
+function buildActionTasks() {
+  const tasks = [];
 
-  // Update badge
+  // NUDGE: active creator 48h+ no post
+  DATA.creators.forEach(c => {
+    if (getStage(c) !== 'active') return;
+    const ts = c.weekly_posts?.last_submitted_ts;
+    if (!ts) return;
+    const waited = NOW - ts;
+    if (waited > 48 * HOUR) {
+      tasks.push({
+        id: `nudge-${c.id}`, type: 'nudge',
+        creator: c,
+        desc: `No post in ${Math.round(waited / HOUR)}h — nudge to resume posting`,
+        owner: 'Sarah (VA)', waitedMs: waited,
+        waitColor: 'red',
+      });
+    }
+  });
+
+  // REPLY GAP: creator message unanswered 4h+
+  DATA.group_chats.forEach(gc => {
+    if (!gc.alert || gc.alert_type !== 'reply_gap') return;
+    const c = DATA.creators.find(c => c.id === gc.creator_id);
+    if (!c) return;
+    const waited = NOW - gc.last_team_reply_ts;
+    tasks.push({
+      id: `reply-${gc.id}`, type: 'reply',
+      creator: c,
+      desc: `Creator message has no team reply for ${Math.round(waited / HOUR)}h`,
+      owner: 'Sarah (VA)', waitedMs: waited,
+      waitColor: 'red',
+    });
+  });
+
+  // CONTENT REVIEW: video pending Nathan review
+  DATA.creators.forEach(c => {
+    (c.content || []).forEach(v => {
+      if (v.status !== 'pending_review') return;
+      const ts = v.posted_ts || v.submitted_ts;
+      const waited = ts ? NOW - ts : 0;
+      tasks.push({
+        id: `review-${c.id}-${v.id}`, type: 'review',
+        creator: c,
+        desc: `"${v.title}" — waiting for Nathan's review`,
+        owner: 'Nathan', waitedMs: waited,
+        waitColor: 'blue',
+      });
+    });
+  });
+
+  // CHECK-IN: group chat 24h+ no check-in
+  DATA.group_chats.forEach(gc => {
+    const waited = gc.last_checkin_ts ? NOW - gc.last_checkin_ts : NOW;
+    if (waited < 24 * HOUR) return;
+    const c = DATA.creators.find(c => c.id === gc.creator_id);
+    if (!c) return;
+    tasks.push({
+      id: `checkin-${gc.id}`, type: 'checkin',
+      creator: c,
+      desc: `No check-in for ${Math.round(waited / HOUR)}h — send daily message`,
+      owner: 'Sarah (VA)', waitedMs: waited,
+      waitColor: waited > 48 * HOUR ? 'red' : 'amber',
+    });
+  });
+
+  // ONBOARDING: creator stuck in early stage with missing steps
+  DATA.creators.forEach(c => {
+    const stage = getStage(c);
+    if (stage !== 'joined' && stage !== 'contracted') return;
+    const steps = c.onboarding_steps || {};
+    const missing = [];
+    if (!steps.contract_signed)     missing.push('contract');
+    if (!steps.handle_requested)    missing.push('handle request');
+    if (!steps.nathan_link_sent)    missing.push('Nathan link');
+    if (!steps.sideshift_link_sent) missing.push('Sideshift link');
+    if (missing.length === 0) return;
+    tasks.push({
+      id: `onboarding-${c.id}`, type: 'onboarding',
+      creator: c,
+      desc: `Still needed: ${missing.join(', ')}`,
+      owner: 'Sarah (VA)', waitedMs: 0,
+      waitColor: 'purple',
+    });
+  });
+
+  return tasks.filter(t => !state.resolvedAlerts.has(t.id));
+}
+
+function renderAlerts() {
+  const wrap = document.getElementById('action-queue');
+  if (!wrap) return;
+
+  const tasks = buildActionTasks();
+
+  // Update nav badge
   const badge = document.getElementById('alert-count');
-  if (active.length > 0) {
-    badge.textContent = active.length;
+  if (tasks.length > 0) {
+    badge.textContent = tasks.length;
     badge.style.display = '';
   } else {
     badge.style.display = 'none';
   }
 
-  list.innerHTML = '';
-
-  if (active.length === 0) {
-    list.innerHTML = `
-      <div class="empty-state">
-        <div class="emoji">🎉</div>
-        <div class="label">All caught up!</div>
-        <div class="sub">No active alerts right now.</div>
-      </div>
-    `;
+  if (tasks.length === 0) {
+    wrap.innerHTML = `<div class="aq-empty"><div class="aq-empty-icon">✓</div>All caught up — no open action items.</div>`;
     return;
   }
 
-  active.forEach(alert => {
-    const card = document.createElement('div');
-    card.className = 'alert-card';
-    card.id = `alert-card-${alert.id}`;
+  const SECTIONS = [
+    { type: 'nudge',      label: 'Nudges',          icon: '🔔' },
+    { type: 'reply',      label: 'Reply Gaps',       icon: '💬' },
+    { type: 'review',     label: 'Content Review',   icon: '🎬' },
+    { type: 'checkin',    label: 'Check-ins',        icon: '📋' },
+    { type: 'onboarding', label: 'Onboarding',       icon: '🚀' },
+  ];
 
-    card.innerHTML = `
-      <div class="alert-indicator ${alert.severity}"></div>
-      <div class="alert-content">
-        <div class="alert-title">${alert.title}</div>
-        <div class="alert-meta">
-          <span>📱 ${alert.chat}</span>
-          <span>${alert.detail}</span>
+  wrap.innerHTML = `<div class="aq-wrap">${
+    SECTIONS.map(sec => {
+      const items = tasks.filter(t => t.type === sec.type);
+      if (items.length === 0) return '';
+      return `
+        <div class="aq-section">
+          <div class="aq-section-header">
+            ${sec.icon} ${sec.label}
+            <span class="aq-section-count">${items.length}</span>
+          </div>
+          ${items.map(t => {
+            const waitLabel = t.waitedMs > 0
+              ? Math.round(t.waitedMs / HOUR) + 'h'
+              : 'Pending';
+            return `
+              <div class="aq-task ${t.type}" id="aq-task-${t.id}">
+                <div class="aq-avatar" style="background:${t.creator.color}">${t.creator.avatar_initials}</div>
+                <div class="aq-body">
+                  <div class="aq-creator">${t.creator.name}</div>
+                  <div class="aq-desc">${t.desc}</div>
+                </div>
+                <span class="aq-owner">${t.owner}</span>
+                ${t.waitedMs > 0 ? `<span class="aq-wait ${t.waitColor}">${waitLabel}</span>` : ''}
+                <button class="aq-done-btn" onclick="resolveAlert('${t.id}')">Done</button>
+              </div>
+            `;
+          }).join('')}
         </div>
-      </div>
-      <div class="alert-time ${alert.severity}">${alert.time_label}</div>
-      <button class="resolve-btn" data-alert-id="${alert.id}">Resolve</button>
-    `;
-
-    card.querySelector('.resolve-btn').addEventListener('click', () => resolveAlert(alert.id));
-    list.appendChild(card);
-  });
+      `;
+    }).join('')
+  }</div>`;
 }
 
-function resolveAlert(alertId) {
-  const card = document.getElementById(`alert-card-${alertId}`);
-  if (card) {
-    card.classList.add('fading');
+function resolveAlert(taskId) {
+  const el = document.getElementById(`aq-task-${taskId}`);
+  if (el) {
+    el.classList.add('fading');
     setTimeout(() => {
-      state.resolvedAlerts.add(alertId);
+      state.resolvedAlerts.add(taskId);
       renderAlerts();
-      renderPipeline(); // refresh alert dots
+      renderPipeline();
     }, 220);
   }
 }
