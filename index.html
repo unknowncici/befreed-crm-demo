@@ -1875,6 +1875,119 @@
   ::-webkit-scrollbar-thumb { background: #374151; border-radius: 3px; }
   ::-webkit-scrollbar-thumb:hover { background: #4b5563; }
 
+  /* ── VIDEOS SCREEN ── */
+  .videos-leaderboard {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 12px;
+    margin-bottom: 24px;
+  }
+  .vl-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px 16px;
+    cursor: pointer;
+    transition: border-color 0.15s;
+  }
+  .vl-card:hover { border-color: #4b5563; }
+  .vl-card.selected { border-color: var(--accent); }
+  .vl-card-rank { font-size: 11px; color: var(--text-muted); font-weight: 600; margin-bottom: 4px; }
+  .vl-card-name { font-size: 13px; font-weight: 700; color: var(--text-primary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .vl-card-views { font-size: 18px; font-weight: 800; color: var(--text-primary); margin-top: 8px; }
+  .vl-card-sub { font-size: 11px; color: var(--text-muted); margin-top: 2px; }
+
+  .videos-filter-bar {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px 18px;
+    margin-bottom: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+    align-items: center;
+  }
+  .filter-group { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+  .filter-label { font-size: 11px; font-weight: 700; color: var(--text-muted); letter-spacing: 0.06em; text-transform: uppercase; white-space: nowrap; }
+  .filter-chip {
+    font-size: 12px;
+    font-weight: 600;
+    padding: 4px 11px;
+    border-radius: 20px;
+    border: 1px solid var(--border);
+    background: transparent;
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: all 0.12s;
+  }
+  .filter-chip:hover { border-color: #4b5563; color: var(--text-primary); }
+  .filter-chip.active { background: var(--accent); border-color: var(--accent); color: #fff; }
+  .filter-chip.plat-tt.active  { background: #010101; border-color: #010101; color: #fff; }
+  .filter-chip.plat-ig.active  { background: #e1306c; border-color: #e1306c; color: #fff; }
+  .filter-chip.plat-yt.active  { background: #ff0000; border-color: #ff0000; color: #fff; }
+  .filter-chip.plat-li.active  { background: #0a66c2; border-color: #0a66c2; color: #fff; }
+  .filter-divider { width: 1px; height: 28px; background: var(--border); }
+
+  .videos-table-wrap { overflow-x: auto; }
+  .videos-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+  }
+  .videos-table thead th {
+    text-align: left;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    padding: 8px 12px;
+    border-bottom: 1px solid var(--border);
+    white-space: nowrap;
+  }
+  .videos-table tbody tr { border-bottom: 1px solid #1f2937; }
+  .videos-table tbody tr:last-child { border-bottom: none; }
+  .videos-table tbody tr:hover { background: rgba(255,255,255,0.02); }
+  .videos-table td { padding: 11px 12px; vertical-align: middle; }
+  .vid-title-cell { display: flex; align-items: center; gap: 10px; }
+  .vid-platform-icon {
+    width: 28px; height: 28px; border-radius: 6px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 11px; font-weight: 800; flex-shrink: 0;
+  }
+  .vid-platform-icon.tt { background: #1a1a1a; color: #fff; }
+  .vid-platform-icon.ig { background: rgba(225,48,108,0.15); color: #e1306c; }
+  .vid-platform-icon.yt { background: rgba(255,0,0,0.12); color: #ff4444; }
+  .vid-platform-icon.li { background: rgba(10,102,194,0.15); color: #0a66c2; }
+  .vid-title { font-weight: 600; color: var(--text-primary); }
+  .vid-creator-tag {
+    font-size: 11px; font-weight: 600; padding: 2px 7px; border-radius: 4px;
+    background: rgba(255,255,255,0.06); color: var(--text-secondary);
+  }
+  .vid-stat { font-weight: 700; color: var(--text-primary); }
+  .vid-stat-sub { font-size: 11px; color: var(--text-muted); }
+  .vid-watch-link {
+    display: inline-flex; align-items: center; gap: 4px;
+    font-size: 12px; font-weight: 600; color: #60a5fa;
+    text-decoration: none; padding: 4px 10px; border-radius: 6px;
+    background: rgba(59,130,246,0.1);
+    transition: background 0.12s;
+  }
+  .vid-watch-link:hover { background: rgba(59,130,246,0.2); }
+  .videos-empty {
+    padding: 40px;
+    text-align: center;
+    color: var(--text-muted);
+    font-size: 14px;
+  }
+  .videos-result-count {
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-bottom: 10px;
+    font-weight: 500;
+  }
+
   /* ── TODAY SCREEN ── */
   .today-grid {
     display: grid;
@@ -2081,6 +2194,9 @@
     <div class="nav-item" data-screen="creators">
       <span class="nav-icon">◎</span> Creators
     </div>
+    <div class="nav-item" data-screen="videos">
+      <span class="nav-icon">▶</span> Videos
+    </div>
     <!-- hidden: today, onboarding, stats — accessible via navigate() for dev use -->
     <div class="nav-item" data-screen="today" style="display:none;">
       <span class="nav-icon">☀</span> Today
@@ -2110,6 +2226,15 @@
 
 <!-- ══════════════════════ MAIN ══════════════════════ -->
 <main class="main">
+
+  <!-- ── SCREEN: VIDEOS ── -->
+  <section class="screen" id="screen-videos">
+    <div class="screen-header">
+      <div class="screen-title">Content Performance</div>
+      <div class="screen-subtitle">All published videos across platforms — filter by creator, platform, or time period</div>
+    </div>
+    <div id="videos-content"></div>
+  </section>
 
   <!-- ── SCREEN: TODAY ── -->
   <section class="screen" id="screen-today">
@@ -2299,9 +2424,14 @@ const DATA = {
         { label: 'Sideshift link shared',  done: true },
       ],
       content: [
-        { id: 'v1', title: 'Tutorial #1',  submitted: '2024-12-10', views: 125000, status: 'approved', platform: 'tiktok',    url: 'https://www.tiktok.com/@sofia.chen/video/7312000000000000001' },
-        { id: 'v2', title: 'Collab drop',  submitted: '2024-12-14', views: 89000,  status: 'approved', platform: 'instagram', url: 'https://www.instagram.com/reel/C0x0000000A/' },
-        { id: 'v3', title: 'GRWM Dec',     submitted: '2024-12-18', views: 210000, status: 'approved', platform: 'tiktok',    url: 'https://www.tiktok.com/@sofia.chen/video/7312000000000000002' },
+        { id: 'v1', title: 'Tutorial #1',          posted_ts: NOW-(14*DAY), views: 125000, likes: 8200,  comments: 340, status: 'approved', platform: 'tiktok',    url: 'https://www.tiktok.com/@sofia.chen/video/7312000000000000001' },
+        { id: 'v2', title: 'Collab drop',           posted_ts: NOW-(10*DAY), views: 89000,  likes: 5100,  comments: 210, status: 'approved', platform: 'instagram', url: 'https://www.instagram.com/reel/C0x0000000A/' },
+        { id: 'v3', title: 'NYC day in my life',    posted_ts: NOW-(9*DAY),  views: 44000,  likes: 2800,  comments: 118, status: 'approved', platform: 'youtube',   url: 'https://www.youtube.com/shorts/abc000001' },
+        { id: 'v4', title: 'Fit check — winter fit',posted_ts: NOW-(7*DAY),  views: 112000, likes: 9400,  comments: 380, status: 'approved', platform: 'instagram', url: 'https://www.instagram.com/reel/C0x0000000C/' },
+        { id: 'v5', title: 'GRWM Dec',              posted_ts: NOW-(6*DAY),  views: 210000, likes: 18400, comments: 920, status: 'approved', platform: 'tiktok',    url: 'https://www.tiktok.com/@sofia.chen/video/7312000000000000002' },
+        { id: 'v6', title: 'Study with me',         posted_ts: NOW-(5*DAY),  views: 18000,  likes: 890,   comments: 64,  status: 'approved', platform: 'linkedin',  url: 'https://www.linkedin.com/posts/sofia-chen-activity-000001' },
+        { id: 'v7', title: 'Makeup tutorial EP2',   posted_ts: NOW-(4*DAY),  views: 145000, likes: 11200, comments: 480, status: 'approved', platform: 'tiktok',    url: 'https://www.tiktok.com/@sofia.chen/video/7312000000000000003' },
+        { id: 'v8', title: 'Holiday lookbook',      posted_ts: NOW-(2*DAY),  views: 88000,  likes: 7300,  comments: 290, status: 'approved', platform: 'instagram', url: 'https://www.instagram.com/reel/C0x0000000D/' },
       ],
       // Weekly posting tracker (Mon–Sun). Active creators target 6/week.
       weekly_posts: {
@@ -2374,7 +2504,7 @@ const DATA = {
         { label: 'Discord invite sent',    done: false },
       ],
       content: [
-        { id: 'v1', title: 'First warmup video', submitted_ts: NOW - (30 * HOUR), views: null, status: 'pending_review', reviewer: 'Nathan', platform: 'tiktok', url: 'https://www.tiktok.com/@marcus.rivera/video/7312000000000000010' },
+        { id: 'v1', title: 'First warmup video', posted_ts: NOW-(30*HOUR), views: null, likes: null, comments: null, status: 'pending_review', reviewer: 'Nathan', platform: 'tiktok', url: 'https://www.tiktok.com/@marcus.rivera/video/7312000000000000010' },
       ],
       weekly_posts: null, // not on 6/week schedule yet — in warmup phase
       feedback_log: [
@@ -2473,8 +2603,9 @@ const DATA = {
         { label: 'Sideshift link shared',  done: true },
       ],
       content: [
-        { id: 'v1', title: 'Lifestyle vlog',   submitted: '2024-12-18', views: 67000, status: 'approved',       platform: 'instagram', url: 'https://www.instagram.com/reel/C0x0000000B/' },
-        { id: 'v2', title: 'Challenge video',  submitted: '2024-12-19', views: null,  status: 'pending_review', platform: 'tiktok',    url: 'https://www.tiktok.com/@tyler.brooks/video/7312000000000000020', reviewer: 'Nathan' },
+        { id: 'v1', title: 'Morning routine',  posted_ts: NOW-(6*DAY),  views: 32000, likes: 2100, comments: 95,  status: 'approved',       platform: 'youtube',   url: 'https://www.youtube.com/shorts/abc000002' },
+        { id: 'v2', title: 'Lifestyle vlog',   posted_ts: NOW-(5*DAY),  views: 67000, likes: 4200, comments: 180, status: 'approved',       platform: 'instagram', url: 'https://www.instagram.com/reel/C0x0000000B/' },
+        { id: 'v3', title: 'Challenge video',  posted_ts: NOW-(4*DAY),  views: null,  likes: null, comments: null,status: 'pending_review', platform: 'tiktok',    url: 'https://www.tiktok.com/@tyler.brooks/video/7312000000000000020', reviewer: 'Nathan' },
       ],
       weekly_posts: null, // warmed but not yet on 6/week schedule
       feedback_log: [
@@ -2878,6 +3009,10 @@ function navigate(screen, creatorId) {
 
   if (screen === 'stats') {
     renderStats();
+  }
+
+  if (screen === 'videos') {
+    renderVideos();
   }
 
   if (screen === 'today') {
@@ -4105,6 +4240,182 @@ document.querySelector('.creator-list-table thead').addEventListener('click', e 
 });
 
 // ── INIT ──────────────────────────────────────────────────────────────────
+// ── SCREEN: VIDEOS ────────────────────────────────────────────────────────
+const videoFilters = {
+  platforms: new Set(),   // empty = all platforms
+  period: 'all',          // 'week' | '30days' | 'all'
+  creators: new Set(),    // empty = all creators
+};
+
+const PLAT_META = {
+  tiktok:    { label: 'TikTok',    short: 'TT', cls: 'tt' },
+  instagram: { label: 'Instagram', short: 'IG', cls: 'ig' },
+  youtube:   { label: 'YouTube',   short: 'YT', cls: 'yt' },
+  linkedin:  { label: 'LinkedIn',  short: 'LI', cls: 'li' },
+};
+
+function renderVideos() {
+  const wrap = document.getElementById('videos-content');
+  if (!wrap) return;
+
+  // Flatten all videos from all creators
+  const allVideos = [];
+  DATA.creators.forEach(c => {
+    (c.content || []).forEach(v => {
+      allVideos.push({ ...v, creator: c });
+    });
+  });
+
+  // Leaderboard: total approved views per creator, sorted desc
+  const leaderboard = DATA.creators.map(c => {
+    const totalViews = (c.content || [])
+      .filter(v => v.status === 'approved' && v.views)
+      .reduce((s, v) => s + v.views, 0);
+    const totalPosts = (c.content || []).filter(v => v.status === 'approved').length;
+    return { creator: c, totalViews, totalPosts };
+  }).sort((a, b) => b.totalViews - a.totalViews);
+
+  // Apply filters
+  let filtered = allVideos.filter(v => {
+    if (videoFilters.platforms.size > 0 && !videoFilters.platforms.has(v.platform)) return false;
+    if (videoFilters.creators.size > 0 && !videoFilters.creators.has(v.creator.id)) return false;
+    if (videoFilters.period === 'week'   && v.posted_ts < NOW - (7  * DAY)) return false;
+    if (videoFilters.period === '30days' && v.posted_ts < NOW - (30 * DAY)) return false;
+    return true;
+  });
+
+  // Sort by views desc (nulls last), then by posted_ts
+  filtered.sort((a, b) => {
+    if (b.views && !a.views) return 1;
+    if (a.views && !b.views) return -1;
+    if (b.views && a.views) return b.views - a.views;
+    return (b.posted_ts || 0) - (a.posted_ts || 0);
+  });
+
+  // Available platforms in current data
+  const allPlatforms = [...new Set(allVideos.map(v => v.platform))].sort();
+
+  wrap.innerHTML = `
+    <!-- Leaderboard -->
+    <div class="videos-leaderboard">
+      ${leaderboard.map((r, i) => {
+        const isActive = videoFilters.creators.has(r.creator.id);
+        return `<div class="vl-card ${isActive ? 'selected' : ''}" data-creator-id="${r.creator.id}" onclick="toggleCreatorFilter('${r.creator.id}')">
+          <div class="vl-card-rank">#${i+1} ${r.creator.type === 'boosted' ? '⬡ boosted' : 'regular'}</div>
+          <div class="vl-card-name">${r.creator.name}</div>
+          <div class="vl-card-views">${formatViews(r.totalViews)}</div>
+          <div class="vl-card-sub">${r.totalPosts} videos published</div>
+        </div>`;
+      }).join('')}
+    </div>
+
+    <!-- Filter bar -->
+    <div class="videos-filter-bar">
+      <div class="filter-group">
+        <span class="filter-label">Platform</span>
+        <button class="filter-chip ${videoFilters.platforms.size === 0 ? 'active' : ''}" onclick="setPlatformFilter('all')">All</button>
+        ${allPlatforms.map(p => {
+          const m = PLAT_META[p] || { label: p, short: p.slice(0,2).toUpperCase(), cls: '' };
+          const isActive = videoFilters.platforms.has(p);
+          return `<button class="filter-chip plat-${m.cls} ${isActive ? 'active' : ''}" onclick="setPlatformFilter('${p}')">${m.label}</button>`;
+        }).join('')}
+      </div>
+      <div class="filter-divider"></div>
+      <div class="filter-group">
+        <span class="filter-label">Period</span>
+        ${[['week','This week'],['30days','30 days'],['all','All time']].map(([val,label]) =>
+          `<button class="filter-chip ${videoFilters.period === val ? 'active' : ''}" onclick="setPeriodFilter('${val}')">${label}</button>`
+        ).join('')}
+      </div>
+      <div class="filter-divider"></div>
+      <div class="filter-group">
+        <span class="filter-label">Creator</span>
+        <button class="filter-chip ${videoFilters.creators.size === 0 ? 'active' : ''}" onclick="clearCreatorFilter()">All</button>
+        ${DATA.creators.map(c => {
+          const isActive = videoFilters.creators.has(c.id);
+          return `<button class="filter-chip ${isActive ? 'active' : ''}" onclick="toggleCreatorFilter('${c.id}')">${c.name.split(' ')[0]}</button>`;
+        }).join('')}
+      </div>
+    </div>
+
+    <!-- Results -->
+    <div class="videos-result-count">${filtered.length} video${filtered.length !== 1 ? 's' : ''}</div>
+    ${filtered.length === 0
+      ? '<div class="videos-empty">No videos match the current filters.</div>'
+      : `<div class="videos-table-wrap"><table class="videos-table">
+          <thead>
+            <tr>
+              <th>Video</th>
+              <th>Creator</th>
+              <th>Posted</th>
+              <th>Views</th>
+              <th>Likes</th>
+              <th>Comments</th>
+              <th>Status</th>
+              <th>Watch</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${filtered.map(v => {
+              const m = PLAT_META[v.platform] || { short: '?', cls: '' };
+              const posted = v.posted_ts
+                ? new Date(v.posted_ts).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
+                : '—';
+              const statusHtml = v.status === 'approved'
+                ? '<span class="status-pill pill-approved">✓ Live</span>'
+                : `<span class="status-pill pill-pending">⏳ ${v.reviewer || 'Pending'}</span>`;
+              const watchHtml = v.url
+                ? `<a href="${v.url}" target="_blank" rel="noopener" class="vid-watch-link" title="Demo — placeholder URL">↗ Watch</a>`
+                : '<span style="color:var(--text-muted);font-size:12px;">—</span>';
+              return `<tr>
+                <td>
+                  <div class="vid-title-cell">
+                    <div class="vid-platform-icon ${m.cls}">${m.short}</div>
+                    <span class="vid-title">${v.title}</span>
+                  </div>
+                </td>
+                <td><span class="vid-creator-tag">${v.creator.name.split(' ')[0]}</span></td>
+                <td style="color:var(--text-secondary);white-space:nowrap;">${posted}</td>
+                <td><span class="vid-stat">${v.views ? formatViews(v.views) : '—'}</span></td>
+                <td><span class="vid-stat">${v.likes ? formatViews(v.likes) : '—'}</span></td>
+                <td><span class="vid-stat">${v.comments ? v.comments.toLocaleString() : '—'}</span></td>
+                <td>${statusHtml}</td>
+                <td>${watchHtml}</td>
+              </tr>`;
+            }).join('')}
+          </tbody>
+        </table></div>`
+    }
+  `;
+}
+
+function setPlatformFilter(p) {
+  if (p === 'all') {
+    videoFilters.platforms.clear();
+  } else {
+    if (videoFilters.platforms.has(p)) videoFilters.platforms.delete(p);
+    else videoFilters.platforms.add(p);
+    if (videoFilters.platforms.size === 0); // stays empty = all
+  }
+  renderVideos();
+}
+
+function setPeriodFilter(p) {
+  videoFilters.period = p;
+  renderVideos();
+}
+
+function toggleCreatorFilter(id) {
+  if (videoFilters.creators.has(id)) videoFilters.creators.delete(id);
+  else videoFilters.creators.add(id);
+  renderVideos();
+}
+
+function clearCreatorFilter() {
+  videoFilters.creators.clear();
+  renderVideos();
+}
+
 // ── SCREEN: TODAY ─────────────────────────────────────────────────────────
 function renderToday() {
   const dateEl = document.getElementById('today-date-subtitle');
@@ -4356,6 +4667,7 @@ function init() {
   renderChatSidebar(null);
   renderToday();
   renderOnboarding();
+  renderVideos();
   navigate('pipeline');
 }
 
