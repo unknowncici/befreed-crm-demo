@@ -2075,19 +2075,20 @@
     <div class="logo-sub">Creator CRM — Demo</div>
   </div>
   <div class="sidebar-nav">
-    <div class="nav-item" data-screen="today">
-      <span class="nav-icon">☀</span> Today
-    </div>
     <div class="nav-item active" data-screen="pipeline">
       <span class="nav-icon">⊞</span> Pipeline
     </div>
     <div class="nav-item" data-screen="creators">
       <span class="nav-icon">◎</span> Creators
     </div>
-    <div class="nav-item" data-screen="onboarding">
+    <!-- hidden: today, onboarding, stats — accessible via navigate() for dev use -->
+    <div class="nav-item" data-screen="today" style="display:none;">
+      <span class="nav-icon">☀</span> Today
+    </div>
+    <div class="nav-item" data-screen="onboarding" style="display:none;">
       <span class="nav-icon">🚀</span> Onboarding
     </div>
-    <div class="nav-item" data-screen="stats">
+    <div class="nav-item" data-screen="stats" style="display:none;">
       <span class="nav-icon">📊</span> Stats
     </div>
     <div class="nav-item" data-screen="alerts" id="alerts-nav">
@@ -2298,9 +2299,9 @@ const DATA = {
         { label: 'Sideshift link shared',  done: true },
       ],
       content: [
-        { id: 'v1', title: 'Tutorial #1', submitted: '2024-12-10', views: 125000, status: 'approved' },
-        { id: 'v2', title: 'Collab drop',  submitted: '2024-12-14', views: 89000,  status: 'approved' },
-        { id: 'v3', title: 'GRWM Dec',     submitted: '2024-12-18', views: 210000, status: 'approved' },
+        { id: 'v1', title: 'Tutorial #1',  submitted: '2024-12-10', views: 125000, status: 'approved', platform: 'tiktok',    url: 'https://www.tiktok.com/@sofia.chen/video/7312000000000000001' },
+        { id: 'v2', title: 'Collab drop',  submitted: '2024-12-14', views: 89000,  status: 'approved', platform: 'instagram', url: 'https://www.instagram.com/reel/C0x0000000A/' },
+        { id: 'v3', title: 'GRWM Dec',     submitted: '2024-12-18', views: 210000, status: 'approved', platform: 'tiktok',    url: 'https://www.tiktok.com/@sofia.chen/video/7312000000000000002' },
       ],
       // Weekly posting tracker (Mon–Sun). Active creators target 6/week.
       weekly_posts: {
@@ -2373,7 +2374,7 @@ const DATA = {
         { label: 'Discord invite sent',    done: false },
       ],
       content: [
-        { id: 'v1', title: 'First warmup video', submitted_ts: NOW - (30 * HOUR), views: null, status: 'pending_review', reviewer: 'Nathan' },
+        { id: 'v1', title: 'First warmup video', submitted_ts: NOW - (30 * HOUR), views: null, status: 'pending_review', reviewer: 'Nathan', platform: 'tiktok', url: 'https://www.tiktok.com/@marcus.rivera/video/7312000000000000010' },
       ],
       weekly_posts: null, // not on 6/week schedule yet — in warmup phase
       feedback_log: [
@@ -2472,8 +2473,8 @@ const DATA = {
         { label: 'Sideshift link shared',  done: true },
       ],
       content: [
-        { id: 'v1', title: 'Lifestyle vlog', submitted: '2024-12-18', views: 67000, status: 'approved' },
-        { id: 'v2', title: 'Challenge video', submitted: '2024-12-19', views: null, status: 'pending_review', reviewer: 'Nathan' },
+        { id: 'v1', title: 'Lifestyle vlog',   submitted: '2024-12-18', views: 67000, status: 'approved',       platform: 'instagram', url: 'https://www.instagram.com/reel/C0x0000000B/' },
+        { id: 'v2', title: 'Challenge video',  submitted: '2024-12-19', views: null,  status: 'pending_review', platform: 'tiktok',    url: 'https://www.tiktok.com/@tyler.brooks/video/7312000000000000020', reviewer: 'Nathan' },
       ],
       weekly_posts: null, // warmed but not yet on 6/week schedule
       feedback_log: [
@@ -3165,15 +3166,25 @@ function renderDetail(creatorId) {
       <thead>
         <tr>
           <th>Video</th>
+          <th>Platform</th>
           <th>Submitted</th>
           <th>Views</th>
           <th>Status</th>
+          <th>Link</th>
         </tr>
       </thead>
       <tbody>
-        ${creator.content.map(v => `
+        ${creator.content.map(v => {
+          const platIcon = v.platform === 'tiktok'
+            ? '<span style="font-size:12px;background:rgba(0,0,0,0.4);padding:2px 7px;border-radius:4px;color:#fff;font-weight:700;">TT</span>'
+            : '<span style="font-size:12px;background:rgba(225,48,108,0.2);padding:2px 7px;border-radius:4px;color:#e1306c;font-weight:700;">IG</span>';
+          const linkCell = v.url
+            ? `<a href="${v.url}" target="_blank" rel="noopener" style="color:#60a5fa;font-size:12px;text-decoration:none;font-weight:500;" title="Demo link — not a real video">↗ View</a>`
+            : '<span style="color:var(--text-muted);font-size:12px;">—</span>';
+          return `
           <tr>
             <td style="color:var(--text-primary);font-weight:500;">${v.title}</td>
+            <td>${platIcon}</td>
             <td>${v.submitted || (v.submitted_ts ? formatAgo(v.submitted_ts) + ' ago' : '—')}</td>
             <td>${formatViews(v.views)}</td>
             <td>
@@ -3182,8 +3193,9 @@ function renderDetail(creatorId) {
                 : `<span class="status-pill pill-pending">⏳ ${v.reviewer ? v.reviewer + ' review' : 'Pending'}</span>`
               }
             </td>
+            <td>${linkCell}</td>
           </tr>
-        `).join('')}
+        `}).join('')}
       </tbody>
     </table>
   `;
