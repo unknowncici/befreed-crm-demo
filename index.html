@@ -1879,24 +1879,35 @@ function renderDashboard() {
 
 function renderTiers() {
   const panel = document.getElementById('tiers-panel');
-
-  const greenCreators = creators.filter(c => getCreatorTier(c) === 'green');
-  const yellowCreators = creators.filter(c => getCreatorTier(c) === 'yellow');
-  const redCreators = creators.filter(c => getCreatorTier(c) === 'red');
   const babyCreators = creators.filter(c => getCreatorTier(c) === 'baby');
+  const nonBaby = creators.filter(c => getCreatorTier(c) !== 'baby');
+
+  const byCompetency = state.sortMode === 'competency';
+
+  // Tier grouping
+  let greenCreators, yellowCreators, redCreators;
+  if (byCompetency) {
+    greenCreators  = nonBaby.filter(c => getAvgViews(c) > 3000);
+    yellowCreators = nonBaby.filter(c => getAvgViews(c) >= 1000 && getAvgViews(c) <= 3000);
+    redCreators    = nonBaby.filter(c => getAvgViews(c) < 1000);
+  } else {
+    greenCreators  = nonBaby.filter(c => getCreatorTier(c) === 'green');
+    yellowCreators = nonBaby.filter(c => getCreatorTier(c) === 'yellow');
+    redCreators    = nonBaby.filter(c => getCreatorTier(c) === 'red');
+  }
 
   // Sort within tiers
   function sortCreators(list) {
-    if (state.sortMode === 'consistency') {
-      return list.slice().sort((a,b) => getConsistency(b) - getConsistency(a));
-    } else {
+    if (byCompetency) {
       return list.slice().sort((a,b) => getAvgViews(b) - getAvgViews(a));
+    } else {
+      return list.slice().sort((a,b) => getConsistency(b) - getConsistency(a));
     }
   }
 
   function viewsColor(avgViews) {
-    if (avgViews >= 10000) return 'var(--success-green)';
-    if (avgViews >= 3000)  return 'var(--warning-amber)';
+    if (avgViews > 3000)  return 'var(--success-green)';
+    if (avgViews >= 1000) return 'var(--warning-amber)';
     return 'var(--alert-red)';
   }
 
@@ -1936,9 +1947,15 @@ function renderTiers() {
   }
 
   panel.innerHTML = '';
-  panel.appendChild(buildTier(greenCreators, 'green', 'GREEN', 'Posting Daily'));
-  panel.appendChild(buildTier(yellowCreators, 'yellow', 'YELLOW', 'Inconsistent'));
-  panel.appendChild(buildTier(redCreators, 'red', 'RED', 'Not Posting'));
+  if (byCompetency) {
+    panel.appendChild(buildTier(greenCreators,  'green',  'HIGH',   '> 3,000 views/vid'));
+    panel.appendChild(buildTier(yellowCreators, 'yellow', 'MEDIUM', '1,000 – 3,000 views/vid'));
+    panel.appendChild(buildTier(redCreators,    'red',    'LOW',    '< 1,000 views/vid'));
+  } else {
+    panel.appendChild(buildTier(greenCreators,  'green',  'GREEN',  'Posting Daily'));
+    panel.appendChild(buildTier(yellowCreators, 'yellow', 'YELLOW', 'Inconsistent'));
+    panel.appendChild(buildTier(redCreators,    'red',    'RED',    'Not Posting'));
+  }
 
   // Babies
   if (babyCreators.length > 0) {
