@@ -1789,15 +1789,11 @@ function daysSince(dateStr) {
 function getCreatorTier(creator) {
   const days = daysSince(creator.onboard_date);
   if (days < 14) return 'baby';
-  const last2 = creator.posts.slice(-2);
-  const allGreen = last2.every(p => p.ig >= 1 && p.tt >= 1);
-  if (allGreen) return 'green';
-  const hasAny = last2.some(p => p.ig >= 1 || p.tt >= 1);
-  // also check last 14 days consistency
-  const last14 = creator.posts.slice(-14);
-  const postDays = last14.filter(p => p.ig >= 1 || p.tt >= 1).length;
-  if (postDays === 0) return 'red';
-  return 'yellow';
+  const last7 = creator.posts.slice(-7);
+  const total = last7.reduce((s, p) => s + p.ig + p.tt, 0);
+  if (total >= 10) return 'green';
+  if (total >= 5)  return 'yellow';
+  return 'red';
 }
 
 function getConsistency(creator) {
