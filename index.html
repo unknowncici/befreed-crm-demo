@@ -1797,10 +1797,9 @@ function getCreatorTier(creator) {
 }
 
 function getConsistency(creator) {
-  const last14 = creator.posts.slice(-14);
-  const target = last14.length * 2;
-  const actual = last14.reduce((s, p) => s + p.ig + p.tt, 0);
-  return Math.round((actual / target) * 100);
+  const last7 = creator.posts.slice(-7);
+  const actual = last7.reduce((s, p) => s + p.ig + p.tt, 0);
+  return actual; // raw count out of 14
 }
 
 function getTotalViews(creator) {
