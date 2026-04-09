@@ -202,10 +202,23 @@
 
   /* ── TIER SECTION ── */
   .tier-section {
-    background: var(--card-bg);
-    border: 1px solid var(--border);
     border-radius: 12px;
     padding: 16px 18px;
+  }
+
+  .tier-section.green {
+    background: rgba(16,185,129,0.08);
+    border: 1px solid rgba(16,185,129,0.3);
+  }
+
+  .tier-section.yellow {
+    background: rgba(245,158,11,0.08);
+    border: 1px solid rgba(245,158,11,0.3);
+  }
+
+  .tier-section.red {
+    background: rgba(239,68,68,0.08);
+    border: 1px solid rgba(239,68,68,0.3);
   }
 
   .tier-header {
@@ -1895,7 +1908,7 @@ function renderTiers() {
   function buildTier(tierCreators, dotClass, label, sublabel) {
     const sorted = sortCreators(tierCreators);
     const section = document.createElement('div');
-    section.className = 'tier-section';
+    section.className = 'tier-section ' + dotClass;
 
     const header = document.createElement('div');
     header.className = 'tier-header';
